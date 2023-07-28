@@ -7,7 +7,7 @@
 %   input: x(t), input function values as vector.
 %   t: temporal vector used for y(t) and x(t).
 function control_plot(output, input, t)
-    H1=figure(1);
+    H1=figure();
     set(H1,"name","Respuesta temporal");
     subplot(2,1,1);
         plot(t, output, "b");

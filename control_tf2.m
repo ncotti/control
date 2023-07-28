@@ -34,5 +34,8 @@ function control_tf2 (sys, t, input_function)
 
     lsim_info = lsiminfo(y, t)
 
+    true_error = input(end) - y(end);
+    fprintf("True error = %f\n", true_error);
+
     control_plot(y, input, t);
 end

@@ -40,6 +40,7 @@ function control_feedback(G, H)
     
     figure();
     rlocus(G*H);
+    sgrid;
     title("Rlocus of G(s)*H(s)");
     
     figure();
