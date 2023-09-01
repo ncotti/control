@@ -6,7 +6,7 @@
 %
 % @args:
 %   * output_vector: [a_n, a_(n-1), ... , a_1, a_0]. Constants that multiply
-%   the output's derivatives.
+%   the output's derivatives (H(s) = input_vector/output_vector).
 %   * input_vector: [b_n, b_(n-1), ... , b_1, b_0]. Constants that multiply
 %   the input's derivatives.
 %   * t (optional): Time vector [T0, TF]. Default value is [0, 10]. 
@@ -16,7 +16,7 @@
 %   * initial_conditions (optional): [d(n-1)/dt(n-1) y(t=0),..., d/dt y(t=0), y(t=0)].
 %   Initial conditions of the system. Default value is [0,0,...,0].
 %
-% @Author: 
+% @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
 function control_ode (output_vector, input_vector, t, input_function, initial_conditions)
     arguments
@@ -28,15 +28,15 @@ function control_ode (output_vector, input_vector, t, input_function, initial_co
     end
 
     t = [t(1), t(length(t))];
-    [A, B, C, D] = control_tf2ss(output_vector, input_vector);
+    [A, B, C, D] = control_tf2ss(input_vector, output_vector);
     [t, X] = ode45(@(t,X) odefun(t,X,A,B), t, initial_conditions);
     Y = C*X' + D*input_function(t)';
-    
+
     input=zeros(size(t));
     for i=1:length(t)
         input(i) = input_function(t(i));
     end
-    
+
     control_plot(Y, input, t);
 
     function dx_dt = odefun (t, X, A, B)

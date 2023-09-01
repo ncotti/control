@@ -12,7 +12,7 @@
 %   function_handle @(t) <math_expression>. Default value is the step
 %   function u(t).
 %
-% @Author: 
+% @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
 function control_tf2 (sys, t, input_function)
     arguments
@@ -20,22 +20,20 @@ function control_tf2 (sys, t, input_function)
         t                   (1,:) double = 0:0.01:20
         input_function      function_handle = @(t) heaviside(t)
     end
-    
+
     input=zeros(size(t));
     for i=1:length(t)
         input(i) = input_function(t(i));
     end
 
-    step_info = stepinfo(sys, "RiseTimeLimits", [0, 1])
-    bw = bandwidth(sys);
-    fprintf("Bandwidth = %f [rad/seg]\n", bw);
-
     y = lsim(sys, input, t);
 
-    lsim_info = lsiminfo(y, t)
+    str = strcat( ...
+        sprintf("TrueError = %.4f\n", input(end) - y(end)), ...
+        sprintf("Bandwidth = %.4f [rad/seg]\n", bandwidth(sys)), ...
+        sprintf("Overshoot = %.4f\n", stepinfo(sys).Overshoot), ...
+        sprintf("SettlingTime 2%% = %.4f\n", stepinfo(sys).SettlingTime) ...
+    );
+    control_plot(y, input, t, str);
 
-    true_error = input(end) - y(end);
-    fprintf("True error = %f\n", true_error);
-
-    control_plot(y, input, t);
 end

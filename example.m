@@ -24,12 +24,12 @@ D = [0];
 
 u = @(t) sin(2*pi*t);
 
-G = tf(1, [1 3 2 0]);
+G = tf(1, conv([1,6], [1,2]));
 H = 1;
 
 %control_simulink("block");
-%control_ode(salida, entrada, t, u, [0,0,0]);
+%control_ode(entrada, salida, t, u, [0,0,0]);
 %control_ss(A,B,C,D, t, u, [0,0,0]);
 %control_tf(salida, entrada, t, u);
 %control_tf2(sys, t, u);
-control_feedback(G, H);
+%control_feedback(G, H);
