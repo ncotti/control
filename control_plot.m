@@ -13,7 +13,6 @@ function control_plot(output, input, t, str)
         input   (:,:) double
         t       (:,:) double
         str     string = ""
-
     end
     F1=figure();
     set(F1, 'NumberTitle','off',"name","Respuesta temporal");

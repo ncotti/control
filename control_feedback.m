@@ -6,44 +6,39 @@
 %            1 + G(S)*H(s)
 %
 %   This function analizes:
-%   - Bode diagram of the closed loop transfer function M(S).
-%   - Bode diagram of the feedback G(s)*H(s), with gain and phase margins.
+%   - Bode diagram of the characteristic function G(s)*H(s), with gain and phase margins.
 %   - Nyquist plot for the feedback G(s)*H(s).
-%   - Root locus of G(s)*H(s)
+%   - Root locus of G(s)*H(s).
+%   - Temporal plot of the system to a step and a ramp.
 %
 % @args:
 %   * G(s)
 %   * H(s)
 %
-% @Author: 
+% @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
-function control_feedback(G, H)
+function control_feedback(G, H, t, input_function)
     arguments
-        G   tf
-        H   tf
+        G                   tf
+        H                   tf = 1
+        t                   (1,:) double = 0:0.01:20
+        input_function      function_handle = @(t) heaviside(t)
     end
     M = G / (1 + G*H);
-    
-    figure();
-    bode(M);
-    title("M(s) = G / (1 + G*H) bode diagram");
-    grid on;
-    
+
     figure();
     margin(G*H);
-    title("G(s)*H(s) Bode diagram, with phase and gain margins");
     grid on;
-    
-    [gm, pm, wg, wp] = margin(G*H);
-    fprintf("Gain margin:  %f dB at wg = %f\n", 20*log10(gm), wg);
-    fprintf("Phase margin: %f° at wp = %f\n", pm, wp)
-    
+
     figure();
     rlocus(G*H);
     sgrid;
-    title("Rlocus of G(s)*H(s)");
-    
+
     figure();
     nyquist(G*H, {1, 1e9});
     grid on;
+
+    control_tf2(M, t, input_function);
+    polos = pole(M)
+    ceros = pole(M^-1)
 end

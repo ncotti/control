@@ -22,7 +22,7 @@ B = [1/m 0 0]';
 C = [0 1/k1 0];
 D = [0];
 
-u = @(t) sin(2*pi*t);
+u = @(t) heaviside(t);
 
 G = tf(1, conv([1,6], [1,2]));
 H = 1;
@@ -32,4 +32,4 @@ H = 1;
 %control_ss(A,B,C,D, t, u, [0,0,0]);
 %control_tf(salida, entrada, t, u);
 %control_tf2(sys, t, u);
-%control_feedback(G, H);
+control_feedback(G, H, t, u);
