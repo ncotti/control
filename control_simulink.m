@@ -1,5 +1,5 @@
 %% Control simulink
-% @brief: Given a Simuink file ".slx", this functions gets the space state
+% @brief: Given a Simuink file ".slx", this functions gets the state space
 %   matrixes of that system. After that, a temporal analisis is made with
 %   the input function passed as argument. All variables used in the ".slx"
 %   file must have been defined previously in the script before calling

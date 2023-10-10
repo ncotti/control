@@ -1,6 +1,6 @@
-%% Control SS (Space State)
+%% Control SS (State Space)
 % @brief:
-%   Solve the space state equation system given by:
+%   Solve the state space equation system given by:
 %   [x1' x2' ... xn']T = A*[x1 x2 ... xn]T + B*[u1 u2 ... um]T
 %   [y1  y2 ...  yr ]T = C*[x1 x2 ... xn]T + D*[u1 u2 ... um]T
 % @args:

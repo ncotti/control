@@ -6,7 +6,7 @@
 %           a_n*s^n + a_{n-1}*s^{n-1} + ... + a_1*s + a_0
 %
 % @args:
-%   * A, B, C, D: Space State (SS) matrixes.
+%   * A, B, C, D: State Space (SS) matrixes.
 %   * Mp: Overshoot, in percentage (40%) or proportional (0.4)
 %   * ts: Establishment time to the 2%.
 %
