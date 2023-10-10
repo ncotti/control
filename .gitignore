@@ -1,4 +1,4 @@
 tests
 *.slxc
 slprj
-.asv
+*.asv
