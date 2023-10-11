@@ -13,8 +13,8 @@
 %
 % @args:
 %   * G: Open loop gain of the system.
-%   * pm: Phase margin desired.
-%   * gm: Gain margin desired.
+%   * pm: Phase margin desired [degrees]
+%   * gm: Gain margin desired [dB]
 %   * kv: Type I system gain desired (inverse of error to velocity).
 %   * extra_phase: Extra phase added to ensure the mf desired (5-12°).
 %   * w: Vector of angular frequency, for higher resolution in the bode

@@ -1,4 +1,4 @@
-%% Control SS Feedback Full
+%% Control SS Feedback
 % @brief:
 %   Get the temporal response of the transfer function in Laplace:
 %   H(s) =  b_n*s^n + b_{n-1}*s^{n-1} + ... + b_1*s + b_0
@@ -10,9 +10,12 @@
 %   * Mp: Overshoot, in percentage (40%) or proportional (0.4)
 %   * ts: Establishment time to the 2%.
 %
+% @return: K (state's feedback vector), g0 (gain for null step response
+% error).
+%
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
-function control_ss_feedback_full (A, B, C, D, Mp, ts)
+function [K, g0] = control_ss_feedback (A, B, C, D, Mp, ts)
     arguments
         A                   (:,:) double
         B                   (:,:) double
@@ -39,19 +42,20 @@ function control_ss_feedback_full (A, B, C, D, Mp, ts)
     re = -wo*xi;
     im = wo*sin(acos(xi));
 
-    PLC = zeros(1, amount_of_states);
-    PLC(1,1) = re + 1i*im;
-    PLC(1,2) = re -1i*im;
+    PLC = zeros(amount_of_states, 1);
+    PLC(1) = re + 1i*im;
+    PLC(2) = re -1i*im;
     for i = 3:amount_of_states
-        PLC(1,i) = 5*re;
+        PLC(i) = 5*re;
     end
     disp("Closed loop poles:")
     PLC
 
-    % Devolver g, k y PLC
+    % Return K
     disp("SS feedback matrix:")
     K = acker(A,B,PLC)
 
+    % Return g0
     [amount_of_outputs, ~] = size(C);
     g0 = zeros(1, amount_of_outputs);
     for i = 1:amount_of_outputs

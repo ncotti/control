@@ -15,13 +15,13 @@ function control_plot(output, input, t, str)
         str     string = ""
     end
     F1=figure();
-    set(F1, 'NumberTitle','off',"name","Respuesta temporal");
-    plot(t, output, t, input);
+    set(F1, 'NumberTitle','off',"name","Temporal response");
+    plot(t, input, t, output);
     xlabel("t [seg]");
     ylabel("y(t)");
-    title("Respuesta Temporal");
+    title("Temporal Response");
     grid;
-    legend("Output", "Input");
+    legend("Input", "Output");
     if (str ~= "")
         annotation("textbox", "String", str, "FitBoxToText", "on");
     end
