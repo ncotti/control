@@ -1,62 +1,50 @@
 %% Control SS Feedback
 % @brief:
-%   Get the temporal response of the transfer function in Laplace:
-%   H(s) =  b_n*s^n + b_{n-1}*s^{n-1} + ... + b_1*s + b_0
-%           ---------------------------------------------
-%           a_n*s^n + a_{n-1}*s^{n-1} + ... + a_1*s + a_0
-%
+%   Get the "K" and "g0" for the simulink state vector feedback diagram.
 % @args:
-%   * A, B, C, D: State Space (SS) matrixes.
-%   * Mp: Overshoot, in percentage (40%) or proportional (0.4)
-%   * ts: Establishment time to the 2%.
+%  * A, B, C: State Space (SS) matrixes.
+%  * PLC: Desired closed loop poles for the system. If the amount of states
+%  is not equal to the amount of poles, this vector is filled with poles
+%  five times away from the most significant one.
 %
-% @return: K (state's feedback vector), g0 (gain for null step response
-% error).
+% @return: 
+%   * K: state feedback vector.
+%   * g0: gain for null step response error. This will be a vector, where
+%   each element corresponds with one of the outputs defined for matrix "C".
+%   * PLC, after adding the new ones five times away from the dominant one.
 %
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
-function [K, g0] = control_ss_feedback (A, B, C, D, Mp, ts)
+function [K, g0, PLC] = control_ss_feedback(A, B, C, PLC)
     arguments
         A                   (:,:) double
         B                   (:,:) double
         C                   (:,:) double
-        D                   (:,:) double
-        Mp                  double
-        ts                  double
+        PLC                 (1,:) double
     end
 
-    % Check if matrix is controllable
-    [~, amount_of_states] = size(A);
-    if (rank(ctrb(A,B)) ~= amount_of_states)
-        sprintf("SS is not controllable. States: %d; Rank_control_matrix: %d", ...
-            amount_of_states, rank(ctrb(A,B)))
-        return;
-    end
-
-    % Get closed loops poles (PLC)
-    if (Mp > 1)
-        Mp = Mp / 100;
-    end
-    xi = abs(log(Mp)) / sqrt(pi^2 + (log(Mp))^2);
-    wo = 4 / (xi*ts);
-    re = -wo*xi;
-    im = wo*sin(acos(xi));
-
-    PLC = zeros(amount_of_states, 1);
-    PLC(1) = re + 1i*im;
-    PLC(2) = re -1i*im;
-    for i = 3:amount_of_states
-        PLC(i) = 5*re;
+    % Fill the PLC array until it has the same size as the amount of states
+    amount_of_states = width(A);
+    if (length(PLC) ~= amount_of_states)
+        for i = (length(PLC)+1):amount_of_states
+            PLC(i) = real(PLC(1)) * 5;
+        end
     end
     disp("Closed loop poles:")
     PLC
+
+    % Check if matrix is controllable
+    if (rank(ctrb(A,B)) ~= amount_of_states)
+        error("SS is not controllable. States: %d; Rank_control_matrix: %d", ...
+            amount_of_states, rank(ctrb(A,B)))
+    end
 
     % Return K
     disp("SS feedback matrix:")
     K = acker(A,B,PLC)
 
     % Return g0
-    [amount_of_outputs, ~] = size(C);
+    amount_of_outputs = height(C);
     g0 = zeros(1, amount_of_outputs);
     for i = 1:amount_of_outputs
         g0(1,i) = 1/(C(i,:)*inv(B*K-A)*B);
