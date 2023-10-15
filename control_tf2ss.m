@@ -13,7 +13,7 @@
 %
 %   C = [ b0 - b4*a0 | b1 - b4*a1 | b2 - b4*a2 | b3 - b4*a3 ]  D = [ b4 ]
 function [A,B,C,D] = control_tf2ss(num, den)
-    [A, B, C, D] = tf2ss(num, den);
+    [A, B, C, D] = tf2ss(num, den); % [num, den] = tfdata(SYS, "v")
     A = rot90(A,2);
     B = flipud(B);
     C = fliplr(C);
