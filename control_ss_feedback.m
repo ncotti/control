@@ -6,6 +6,8 @@
 %  * PLC: Desired closed loop poles for the system. If the amount of states
 %  is not equal to the amount of poles, this vector is filled with poles
 %  five times away from the most significant one.
+%  * which_output: Which row to use from the "C matrix" as output to
+%  calculate "g0".
 %
 % @return: 
 %   * K: state feedback vector.
@@ -15,12 +17,13 @@
 %
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
-function [K, g0, PLC] = control_ss_feedback(A, B, C, PLC)
+function [K, g0, PLC] = control_ss_feedback(A, B, C, PLC, which_output)
     arguments
         A                   (:,:) double
         B                   (:,:) double
         C                   (:,:) double
         PLC                 (1,:) double
+        which_output        double = 1
     end
 
     % Fill the PLC array until it has the same size as the amount of states
@@ -44,11 +47,7 @@ function [K, g0, PLC] = control_ss_feedback(A, B, C, PLC)
     K = acker(A,B,PLC)
 
     % Return g0
-    amount_of_outputs = height(C);
-    g0 = zeros(1, amount_of_outputs);
-    for i = 1:amount_of_outputs
-        g0(1,i) = 1/(C(i,:)*inv(B*K-A)*B);
-    end
-    disp("Pre-amplifier for null step error for each output:")
+    g0 = 1/(C(which_output,:)*inv(B*K-A)*B);
+    fprintf("Pre-amplifier for null step error for output %d:", which_output);
     g0
 end

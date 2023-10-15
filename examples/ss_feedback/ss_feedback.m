@@ -17,7 +17,6 @@ ts = 4;
 
 PLC = control_get_plc(Mp, ts);
 
-[K, g0, ~] = control_ss_feedback(A, B, C, PLC);
-g0 = g0(2);
+[K, g0, ~] = control_ss_feedback(A, B, C, PLC, 2);
 
 control_simulink("ss_feedback_simulink", 0:0.01:5);
