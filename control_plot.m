@@ -21,7 +21,11 @@ function control_plot(output, input, t, str)
     ylabel("y(t)");
     title("Temporal Response");
     grid;
-    legend("Input", "Output");
+    legend_str = "U(t)";
+    for i = 1:width(output)
+        legend_str(i+1) = sprintf("y_%d(t)", i);
+    end
+    legend(legend_str);
     if (str ~= "")
         annotation("textbox", "String", str, "FitBoxToText", "on");
     end
