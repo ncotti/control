@@ -12,12 +12,12 @@ A = [0 1 0 0;
      -m*g/M 0 0 0];
 B = [0;-1/(M*l);0;1/M] ;
 C = [1 0 0 0;0 0 1 0];
-D = [0;0];
 
 Mp = 16.3;
 ts = 4;
 
-[K, g0] = control_ss_feedback(A, B, C, D, Mp, ts);
-g0 = g0(2);
+PLC = control_get_plc(Mp, ts);
 
-control_simulink("state_vector_feedback");
+[K, g0, Ke, T] = control_ss_estimation(A, B, C, PLC, 2)
+
+control_simulink("ss_estimation_simulink");

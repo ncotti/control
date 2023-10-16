@@ -11,9 +11,9 @@
 %
 % @return: 
 %   * K: state feedback vector.
-%   * g0: gain for null step response error. This will be a vector, where
-%   each element corresponds with one of the outputs defined for matrix "C".
+%   * g0: gain for null step response error.
 %   * PLC, after adding the new ones five times away from the dominant one.
+%   * Which output to follow, corresponds to a single row of the C matrix.
 %
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
