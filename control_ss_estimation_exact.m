@@ -18,7 +18,7 @@
 %
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
-function [K, g0, Ke, T] = control_ss_estimation(A, B, C, PLC, which_output)
+function [K, g0, Ke, T] = control_ss_estimation_exact(A, B, C, PLC, which_output)
     arguments
         A                   (:,:) double
         B                   (:,:) double
