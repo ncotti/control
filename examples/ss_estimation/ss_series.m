@@ -17,7 +17,7 @@ ts = 4;
 
 PLC = control_get_plc(Mp, ts);
   
-[K, g0, Ke, T] = control_ss_estimation_exact(A, B, C, PLC, 2);
+[K, g0, Ke, WO] = control_ss_estimation_exact(A, B, C, PLC, 2)
 g00 = 1;
 
 control_simulink("ss_series_simulink", 0:0.01:7);

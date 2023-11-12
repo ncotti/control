@@ -17,6 +17,6 @@ ts = 4;
 
 PLC = control_get_plc(Mp, ts);
 
-[K, g00, Ke, T] = control_ss_estimation_aprox(A, B, C, PLC, 2)
+[K, g00, Ke, WO] = control_ss_estimation_aprox(A, B, C, PLC, 2)
 
 control_simulink("ss_estimation_aprox_simulink");

@@ -14,11 +14,11 @@
 %   * K: state feedback vector.
 %   * g0: gain for null step response error.
 %   * Ke: estimated state feedback vector.
-%   * T: Row vector used to select the C matrix's row and output.
+%   * WO: Which output. Row vector used to select the C matrix's row and output.
 %
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
-function [K, g0, Ke, T] = control_ss_estimation_exact(A, B, C, PLC, which_output)
+function [K, g0, Ke, WO] = control_ss_estimation_exact(A, B, C, PLC, which_output)
     arguments
         A                   (:,:) double
         B                   (:,:) double
@@ -29,8 +29,8 @@ function [K, g0, Ke, T] = control_ss_estimation_exact(A, B, C, PLC, which_output
 
     % Get C matrix's row
     Cn = C(which_output,:);
-    T = zeros(1, height(C));
-    T(which_output) = 1;
+    WO = zeros(1, height(C));
+    WO(which_output) = 1;
 
     % Check observability of the system
     amount_of_states = width(A);

@@ -14,7 +14,7 @@
 %   * K: state feedback vector.
 %   * g00: gain for null step response error.
 %   * Ke: estimated state feedback vector.
-%   * T: Row vector used to select the C matrix's row and output.
+%   * WO: Which output. Row vector used to select the C matrix's row and output.
 %
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
@@ -48,13 +48,13 @@ function [K, g00, Ke, T] = control_ss_estimation_aprox(A, B, C, PLC, which_outpu
 
     % Calculate g00
     % Get transfer for the SS system alone
-    [n, d] = ss2tf(A,B,Cn,0)
+    [n, d] = ss2tf(A,B,Cn,0);
     G = tf(n, d);
 
     % Get transfer of the ss observer
     % x~'(t) = (A - Ke*C - B*K)*X~(t) + Ke*Y(t)
     % Y(t) = K*(-U(t))  
-    [n, d] = ss2tf(A-Ke*Cn-B*K, Ke, K, 0)
+    [n, d] = ss2tf(A-Ke*Cn-B*K, Ke, K, 0);
     H = tf(n, d);
     M = feedback(G,H);
     [num,den] = tfdata(M,'v');
