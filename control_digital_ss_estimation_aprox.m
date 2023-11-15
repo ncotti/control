@@ -22,7 +22,7 @@
 %
 % @Author:
 %   Nicolas Gabriel Cotti (ngcotti@gmail.com)
-function [Kd, g00d, Ked, WO, T, G, H, PLCd] = control_ss_estimation_aprox(A, B, C, PLC, which_output, T)
+function [Kd, g00d, Ked, WO, T, G, H, PLCd] = control_digital_ss_estimation_aprox(A, B, C, PLC, which_output, T)
     arguments
         A                   (:,:) double
         B                   (:,:) double
