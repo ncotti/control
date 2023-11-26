@@ -34,7 +34,7 @@ function [Kd, g0d, Ked, WO, T, G, H, PLCd] = control_digital_ss_estimation_exact
     WO = zeros(1, height(C));
     WO(which_output) = 1;
 
-    [Kd, g0d, PLCd, T, G, H] = control_digital_ss_feedback(A,B,C,PLC, which_output);
+    [Kd, g0d, PLCd, T, G, H] = control_digital_ss_feedback(A,B,C,PLC, which_output, T);
 
     % Check observability of the system
     amount_of_states = width(A);
@@ -44,7 +44,7 @@ function [Kd, g0d, Ked, WO, T, G, H, PLCd] = control_digital_ss_estimation_exact
     end
 
     % Poles of the estimator should be 4 times away from the dominant poles
-    PLC_estimator = real(PLC(1))*4 * ones(1, length(PLC));
+    PLC_estimator = real(PLC(1))*4 * ones(1, length(PLCd));
     PLCd_estimator = exp(PLC_estimator*T)
     
     Ked = acker(G', Cn', PLCd_estimator)'

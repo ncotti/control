@@ -47,7 +47,7 @@ function [Kd, g00d, Ked, WO, T, G, H, PLCd] = control_digital_ss_estimation_apro
     end
 
     % Poles of the estimator should be 4 times away from the dominant poles
-    PLC_estimator = real(PLC(1))*4 * ones(1, length(PLC));
+    PLC_estimator = real(PLC(1))*4 * ones(1, length(PLCd));
     PLCd_estimator = exp(PLC_estimator*T)
     
     Ked = acker(G', Cn', PLCd_estimator)'
